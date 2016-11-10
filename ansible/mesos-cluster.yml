@@ -1,0 +1,15 @@
+---
+- name: deploy and configure the mesos masters
+  hosts: mesos_masters
+  become: yes
+  vars:
+        - include: group_vars/all.yml
+  roles:
+    - { role: mesos, mesos_install_mode: "master", tags: ["mesos-master"] }
+    - { role: marathon }
+ 
+- name: deploy and configure the mesos slaves
+  hosts: mesos_slavehosts
+  become: yes
+  roles:
+    - { role: mesos, mesos_install_mode: "slave", tags: ["mesos-slave"] }

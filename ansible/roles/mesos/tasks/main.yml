@@ -1,0 +1,27 @@
+---
+- debug: msg={{ ansible_lsb }}
+
+- name: Add key for Mesosphere repository
+  apt_key: keyserver=keyserver.ubuntu.com id=0xE56151BF state=present
+  become: yes
+  register: mesos_repo_key
+ 
+- name: Add Mesosphere repository to sources list
+  apt_repository: repo='deb http://repos.mesosphere.io/{{ ansible_lsb.id | lower }} {{ ansible_lsb.codename }}  main' state=present filename=mesosphere.list
+  when: mesos_repo_key | changed
+  
+- name: Install mesos package 
+  apt: pkg={{ item }}  state=present update_cache=yes 
+  with_items:
+    - "{{ mesos_version }}"
+    - docker
+  become: yes
+  when: mesos_repo_key | changed
+
+- include: master.yml
+  tags: [mesos-master]
+  when: mesos_install_mode == "master"
+
+- include: slave.yml
+  tags: [mesos-slave]
+  when: mesos_install_mode == "slave"

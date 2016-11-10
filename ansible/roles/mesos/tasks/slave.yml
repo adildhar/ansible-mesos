@@ -1,0 +1,46 @@
+- name: Disable the Mesos Master service on Mesos-Slave
+  copy:
+    content: "manual"
+    dest: /etc/init/mesos-master.override
+    mode: 0644
+  become: yes
+ 
+- name: Disable the ZooKeeper service on Mesos-Slave
+  copy:
+    content: "manual"
+    dest: /etc/init/zookeeper.override
+    mode: 0644
+  become: yes
+  notify:
+    - stop zookeeper
+ 
+- name: Set Mesos Slave hostname on Mesos-Slave
+  copy:
+    content: "{{ ansible_eth1.ipv4.address }}"
+    dest: /etc/mesos-slave/hostname 
+    mode: 0644
+  become: yes
+ 
+- name: Set Mesos Slave ip on Mesos-Slave
+  copy:
+    content: "{{ ansible_eth1.ipv4.address }}"
+    dest: /etc/mesos-slave/ip
+    mode: 0644
+  become: yes
+
+# register with masters
+- name: Set ZooKeeper URL
+  copy:
+    content: "{{zookeeper_url}}/mesos"
+    dest: /etc/mesos/zk
+    mode: 0644
+  become: yes
+ 
+- name: Set Mesos Slave isolation on Mesos-Slave
+  copy:
+    content: "cgroups/cpu,cgroups/mem"
+    dest: /etc/mesos-slave/isolation
+    mode: 0644
+  become: yes
+  notify:
+    - start mesos-slave

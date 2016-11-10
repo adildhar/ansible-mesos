@@ -1,0 +1,20 @@
+---
+- name: restart mesos-master
+  service: name=mesos-master state=restarted
+
+- name: stop mesos-master
+  service: name=mesos-master state=stopped
+ 
+- name: start mesos-slave
+  shell: start mesos-slave
+  become: yes
+ 
+- name: stop mesos-slave
+  shell: stop mesos-slave
+  become: yes
+
+- name: restart zookeeper
+  service: name=zookeeper state=restarted
+ 
+- name: stop zookeeper
+  service: name=zookeeper state=stopped

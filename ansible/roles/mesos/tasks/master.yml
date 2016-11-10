@@ -1,0 +1,58 @@
+- name: Disable the Mesos Slave service on Mesos-Master
+  copy:
+    content: "manual"
+    dest: /etc/init/mesos-slave.override
+    mode: 0644
+  become: yes
+ 
+- name: Set Mesos Master hostname on Mesos-Master
+  copy:
+    content: "{{ ansible_eth1.ipv4.address }}"
+    dest: /etc/mesos-master/hostname
+    mode: 0644
+  become: yes
+ 
+- name: Set Mesos Master ip on Mesos-Master
+  copy:
+    content: "{{ ansible_eth1.ipv4.address }}"
+    dest: /etc/mesos-master/ip
+    mode: 0644
+  become: yes
+ 
+- name: Set Mesos Master Cluster name on Mesos-Master
+  copy:
+    content: "{{ mesos_cluster_name }}"
+    dest: /etc/mesos-master/cluster
+    mode: 0644
+  become: yes
+ 
+- name: Set Mesos Master quorum count on Mesos-Master
+  copy:
+    content: "{{ mesos_quorum_count }}"
+    dest: /etc/mesos-master/quorum
+    mode: 0644
+  become: yes
+
+- name: Set Mesos Master quorum count  on Mesos-Master
+  template: src=quorum.j2 dest=/etc/mesos-master/quorum mode=0644 
+  become: yes
+  notify:
+    - restart mesos-master
+
+- name: Create zookeeper config file on Mesos-Master
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+  become: yes
+
+# used for leader election amongst masters
+- name: Set ZooKeeper URL
+  copy:
+    content: "{{zookeeper_url}}/mesos"
+    dest: /etc/mesos/zk
+    mode: 0644
+  become: yes
+
+- name: Create zookeeper myid file on Mesos-Master
+  template: src=zoo_id.j2 dest=/etc/zookeeper/conf/myid
+  become: yes
+  notify:
+    - restart zookeeper

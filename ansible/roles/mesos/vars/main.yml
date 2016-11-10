@@ -1,0 +1,6 @@
+---
+mesos_depends:
+    
+sys_packages:
+  - mcrypt
+  - vim
