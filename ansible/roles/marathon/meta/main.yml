@@ -1,3 +1,19 @@
 ---
+---
+galaxy_info:
+  author: Adil Dhar
+  description: Ansible Mesos Playbook Role
+  company: http://github.com/adildhar
+  license: MIT
+  email: adildhar@gmail.com
+  min_ansible_version: 2.0
+  #
+  # This has been tested only on Ubuntu trusty64
+  #
+  platforms:
+- name: Ubuntu
+    versions:
+     - trusty
+
 dependencies:
   - { role: mesos }
