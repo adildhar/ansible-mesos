@@ -1,25 +1,4 @@
 ---
-- name: Add PPA for Oracle Java 8
-  become: yes
-  apt_repository:
-    repo: "ppa:webupd8team/java"
-    state: present
-    update_cache: yes
-  register: java8_ppa_added
-
-- name: Automatically select the Oracle License
-  shell: echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
-  become: yes
-  when: java8_ppa_added | changed
-
-- name: Install Java 8 packages
-  become: yes
-  apt:  package="{{ item }}" state=latest
-  with_items:
-            - oracle-java8-installer 
-            - oracle-java8-set-default
-  when: java8_ppa_added | changed
-
 - name: Install marathon package
   apt: pkg={{ marathon_version }} state=present update_cache=yes
   become: yes

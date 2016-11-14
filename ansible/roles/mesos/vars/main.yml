@@ -1,6 +1,18 @@
 ---
-mesos_depends:
-    
+mesos_dependencies:
+  - openjdk-8-jdk
+  - build-essential
+  - python-dev
+  - libcurl4-nss-dev
+  - libsasl2-dev
+  - libsasl2-modules 
+  - maven
+  - libapr1-dev
+  - libsvn-dev 
+  - zlib1g-dev
+
 sys_packages:
   - mcrypt
   - vim
+  - tar
+  - wget

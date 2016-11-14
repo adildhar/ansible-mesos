@@ -1,4 +1,10 @@
 ---
+- name: Install mesos package 
+  apt: pkg={{ item }}  state=present update_cache=yes 
+  with_items:
+    - "{{ mesos_dependencies }}"
+  become: yes
+
 - debug: msg={{ ansible_lsb }}
 
 - name: Add key for Mesosphere repository
@@ -14,7 +20,6 @@
   apt: pkg={{ item }}  state=present update_cache=yes 
   with_items:
     - "{{ mesos_version }}"
-    - docker
   become: yes
   when: mesos_repo_key | changed
 

@@ -12,7 +12,7 @@ galaxy_info:
   platforms:
 - name: Ubuntu
     versions:
-     - trusty
+     - xeniel64
 
 dependencies:
   - { role: init }

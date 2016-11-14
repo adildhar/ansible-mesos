@@ -7,14 +7,14 @@
  
 - name: Set Mesos Master hostname on Mesos-Master
   copy:
-    content: "{{ ansible_eth1.ipv4.address }}"
+    content: "{{ ansible_enp0s8.ipv4.address }}"
     dest: /etc/mesos-master/hostname
     mode: 0644
   become: yes
  
 - name: Set Mesos Master ip on Mesos-Master
   copy:
-    content: "{{ ansible_eth1.ipv4.address }}"
+    content: "{{ ansible_enp0s8.ipv4.address }}"
     dest: /etc/mesos-master/ip
     mode: 0644
   become: yes

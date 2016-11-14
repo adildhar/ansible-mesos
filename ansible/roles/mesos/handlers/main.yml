@@ -6,11 +6,11 @@
   service: name=mesos-master state=stopped
  
 - name: start mesos-slave
-  shell: start mesos-slave
+  service: name=mesos-slave state=started
   become: yes
  
 - name: stop mesos-slave
-  shell: stop mesos-slave
+  service: name=mesos-slave state=stopped
   become: yes
 
 - name: restart zookeeper

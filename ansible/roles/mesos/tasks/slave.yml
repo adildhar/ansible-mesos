@@ -16,14 +16,14 @@
  
 - name: Set Mesos Slave hostname on Mesos-Slave
   copy:
-    content: "{{ ansible_eth1.ipv4.address }}"
+    content: "{{ ansible_enp0s8.ipv4.address }}"
     dest: /etc/mesos-slave/hostname 
     mode: 0644
   become: yes
  
 - name: Set Mesos Slave ip on Mesos-Slave
   copy:
-    content: "{{ ansible_eth1.ipv4.address }}"
+    content: "{{ ansible_enp0s8.ipv4.address }}"
     dest: /etc/mesos-slave/ip
     mode: 0644
   become: yes
