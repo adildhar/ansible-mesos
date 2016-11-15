@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
     end
     # create mesos-master node
     config.vm.define :"mesos-master" do |mesos_config|
-      mesos_config.vm.box = "ubuntu-xenial64-jdk8"
+      mesos_config.vm.box = "ubuntu/xenial64"
       mesos_config.vm.box_url = "file:///cygwin64/home/boxes/ubuntu-mesos/ubuntu-xenial64-jdk8"
       mesos_config.vm.hostname = "mesos-master01"
       mesos_config.ssh.username = "ubuntu"
@@ -25,21 +25,13 @@ Vagrant.configure("2") do |config|
       end
     end
     config.vm.define :"mesos-slave" do |slave_config|
-      slave_config.vm.box = "ubuntu-xenial64-jdk8"
+      slave_config.vm.box = "ubuntu/xenial64"
       slave_config.vm.box_url = "file:///cygwin64/home/boxes/ubuntu-mesos/ubuntu-xenial64-jdk8"
       slave_config.vm.hostname = "mesos-slave01"
       slave_config.ssh.username = "ubuntu"
       slave_config.vm.network :private_network, ip: "10.0.15.30"
       slave_config.vm.provider "virtualbox" do |vb|
         vb.memory = "512"
-      end
-    end
-    config.vm.define :"cus-mesos" do |cus_config|
-      cus_config.vm.box = "ubuntu/xenial64"
-      cus_config.vm.hostname = "mesos-cus01"
-      cus_config.vm.network :private_network, ip: "10.0.15.30"
-      cus_config.vm.provider "virtualbox" do |vb|
-        vb.memory = "1536"
       end
     end
 end
